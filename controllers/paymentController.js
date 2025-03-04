@@ -21,7 +21,7 @@ export const createCheckoutSession = async (req, res) => {
                     quantity: 1,
                 },
             ],
-            success_url: `${process.env.CLIENT_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+            success_url: `${process.env.CLIENT_URL}/success?session_id={{CHECKOUT_SESSION_ID}}`, // Fix here
             cancel_url: `${process.env.CLIENT_URL}/cancel`,
         });
 
@@ -31,5 +31,6 @@ export const createCheckoutSession = async (req, res) => {
         res.status(500).json({ error: 'Failed to create checkout session', details: error.message });
     }
 };
+
 
 
