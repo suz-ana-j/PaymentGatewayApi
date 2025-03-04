@@ -10,18 +10,20 @@ const app = express();
 
 app.use(express.json());
 
+const allowedOrigins = [process.env.CLIENT_URL];
+
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || origin === process.env.CLIENT_URL) {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
+            console.error(`Blocked by CORS: ${origin}`);
             callback(new Error("Not allowed by CORS"));
         }
     },
     methods: ['GET', 'POST'],
     credentials: true
 }));
-
 
 // Dynamically load the Stripe Key based on environment
 const stripeInstance = stripe(process.env.STRIPE_SECRET_KEY);
