@@ -9,7 +9,13 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+app.use(cors({
+    origin: process.env.CLIENT_URL,  // Only allow requests from your frontend
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
+
 
 // Dynamically load the Stripe Key based on environment
 const stripeInstance = stripe(process.env.STRIPE_SECRET_KEY);
